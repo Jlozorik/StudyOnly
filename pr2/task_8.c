@@ -6,8 +6,8 @@ int main() {
     FILE *fp, *temp_fp;
     char filename[100];
     char findStr[100], replaceStr[100];
-    char buffer[1024]; 
-
+    char line[1024];
+    
     printf("Введите имя файла: ");
     scanf("%s", filename);
 
@@ -30,12 +30,18 @@ int main() {
         return 1;
     }
     
-    while (fscanf(fp, "%s", buffer) != EOF) {
-        if (strcmp(buffer, findStr) == 0) {
-            fprintf(temp_fp, "%s ", replaceStr);
-        } else {
-            fprintf(temp_fp, "%s ", buffer);
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        char *pos;
+        while ((pos = strstr(line, findStr)) != NULL) {
+            char temp_line[1024];
+            int len_prefix = pos - line;
+            strncpy(temp_line, line, len_prefix);
+            temp_line[len_prefix] = '\0';
+            strcat(temp_line, replaceStr);
+            strcat(temp_line, pos + strlen(findStr));
+            strcpy(line, temp_line);
         }
+        fputs(line, temp_fp);
     }
 
     fclose(fp);
