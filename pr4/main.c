@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <string.h>
 
+//github problem
 int main() {
     FILE *file = fopen("nonexistent_file.txt", "r");
     if (file == NULL) {
