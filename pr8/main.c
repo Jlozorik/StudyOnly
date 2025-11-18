@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
             break;
         }
 
-        if (bytes_read1 == 0 || bytes_read2 == 0) {
+        if (bytes_read1 != bytes_read2) {
             write(STDOUT_FILENO, "Один файл является началом другого.\n", 60);
             break;
         }
