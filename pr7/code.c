@@ -1,0 +1,39 @@
+// permission_checker.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, "Использование: %s <путь_к_файлу>\n", argv[0]);
+        return 1;
+    }
+
+    const char* filepath = argv[1];
+    FILE *file;
+
+    printf("Проверка прав доступа для файла: %s\n", filepath);
+
+    printf("Попытка открыть файл для чтения... ");
+    file = fopen(filepath, "r");
+
+    if (file) {
+        printf("УСПЕХ.\n");
+        fclose(file);
+    } else {
+        printf("ОШИБКА.\n");
+        perror("Подробности ошибки чтения");
+    }
+    printf("Попытка открыть файл для записи... ");
+    file = fopen(filepath, "a");
+
+    if (file) {
+        printf("УСПЕХ.\n");
+        fclose(file);
+    } else {
+        printf("ОШИБКА.\n");
+        perror("Подробности ошибки записи");
+    }
+
+    return 0;
+}
